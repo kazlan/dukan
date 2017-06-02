@@ -4,6 +4,7 @@ import firebase from 'firebase/app'
 import database from 'firebase/database'
 import differenceInDays from 'date-fns/difference_in_days'
 import Rebase from 're-base'
+import LoadingBar from './LoadingBar'
 
 const fire= firebase.initializeApp({
     apiKey: "AIzaSyCy2xviA4QveQt21nL-fMVQTJHgQXX417E",
@@ -27,22 +28,21 @@ class Tipodedia extends Component {
         }
     }
     componentWillMount() {
-        fbase.syncState('check',{
+        fbase.fetch('check',{
             context: this,
-            state: 'check',
-            then: ()=>{
-                this.checkDate();
-                this.setState({loading: false})
+            then: (data)=>{
+                this.setState({check: data, loading: false})
+                this.checkDate(data);
             }
         })
     }
-    checkDate(){
-        let than = this.state.check.lastTime
+    checkDate(than){
         let now = new Date()
-        console.log(than,now)
-        console.log(differenceInDays(now,than)%2)
-        if (differenceInDays(now,than)%2){
-            if (this.state.type === "pp"){
+        console.log(than.lastTime,now)
+        console.log(differenceInDays(now,than.lastTime))
+        console.log(differenceInDays(now,than.lastTime)%2)
+        if (differenceInDays(now,than.lastTime)%2){
+            if (than.type === "pp"){
                 this.setState({check: {lastTime:now,type: "pv"}})
             }else{
                 this.setState({check: {lastTime:now,type: "pp"}})
@@ -50,17 +50,17 @@ class Tipodedia extends Component {
         }
     }
     render() {
-        if (this.state.loading) return <div>Loading...</div>
-        let icono = this.state.check.type==="pp"?"/img/filete.svg":"/img/lechuga.svg"
-        let imagen = this.state.check.type==="pp"?"/img/carne.jpg":"/img/verduras.jpg"
-        return <div style={{width: "320px"}}>
+        let {loading, check} = this.state
+        let imagen = check.type==="pp"?"/img/carne.jpg":"/img/verduras.jpg"
+        return (
+            <div style={{width: "320px"}}>
+                {loading?
+                    <LoadingBar />
+                    :
                     <img src={imagen} alt="carne o verdura"/>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec mattis pretium massa. 
-                    </p>
-                </div>
-    }
+                }
+            </div>
+        )}
 }
 
 export default Tipodedia;

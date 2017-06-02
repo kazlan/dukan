@@ -6,7 +6,9 @@
     "date-fns": "^1.28.5",
     "re-base": "^3.0.1",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "semantic-ui-css": "^2.2.10",
+    "semantic-ui-react": "^0.68.4"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
