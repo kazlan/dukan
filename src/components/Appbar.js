@@ -1,5 +1,24 @@
 import React, { Component } from 'react';
-import {Menu} from 'semantic-ui-react'
+import glamorous from 'glamorous'
+
+const GlamAppBar = glamorous.div({
+    height: "48px",
+    borderBottom: "1px solid gray",
+    display: "flex",
+    alignItems: "center",
+    padding: "0px 8px"
+})
+const GlamLink = glamorous.a({
+    textDecoration: "none",
+    margin: "4px 8px",
+    ":hover": {
+        color: "red"
+    }
+})
+const GlamRightBox = glamorous.div({
+    marginLeft: "auto"
+})
+
 class Appbar extends Component {
 
   state = { activeItem: 'home' }
@@ -7,15 +26,13 @@ class Appbar extends Component {
     render() {
         let {activeItem} = this.state
         return (          
-            <Menu pointing secondary>
-                <Menu.Item header>Registro Dukan</Menu.Item>
-                <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-                <Menu.Item name='Recetas' active={activeItem === 'messages'} onClick={this.handleItemClick} />
-                <Menu.Item name='Consejos' active={activeItem === 'friends'} onClick={this.handleItemClick} />
-                <Menu.Menu position='right'>
-                    <Menu.Item name='login' active={activeItem === 'login'} onClick={this.handleItemClick} />
-                </Menu.Menu>
-            </Menu>
+            <GlamAppBar>
+                <h2>Registro Dukan</h2>
+                <GlamLink href="#">Testie</GlamLink>
+                <GlamRightBox>
+                    <GlamLink href="#">Login</GlamLink>
+                </GlamRightBox>
+            </GlamAppBar>
         );
     }
 }
